@@ -1,0 +1,16 @@
+{% extends 'base.html' %} {% block content %}
+<form action="" method="post">
+  {% csrf_token %}
+  <h3>
+    Are you sure you want to Delete
+    <span style="color: red">{{object}}</span> Project ?
+  </h3>
+  <a href="{% url 'projects' %}">
+    <span
+      style="padding: 4px; border: 2px solid brown; background-color: bisque"
+      >GO BACK</span
+    ></a
+  >
+  <input type="submit" value="Confirm" />
+</form>
+{% endblock %}
