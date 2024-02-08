@@ -13,10 +13,21 @@ def createProfile(sender, instance, created, **kwargs):
             name = user.first_name,
         )
 
+def updateUser(sender, instance, created, **kwargs):
+    profile = instance
+    user = profile.user
+
+    if created == False:
+        user.first_name = profile.name
+        user.email = profile.email
+        user.username = profile.username
+        user.save()
+
 
 def deleteUser(sender, instance, **kwargs):
     user = instance.user
     user.delete()
 
 post_save.connect(createProfile, sender=User)
+post_save.connect(updateUser, sender=Profile)
 post_delete.connect(deleteUser, sender=Profile)
