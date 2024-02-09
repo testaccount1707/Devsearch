@@ -60,8 +60,10 @@
         </div>
         <div class="settings">
           <h3 class="settings__title">Skills</h3>
-          <a class="tag tag--pill tag--sub settings__btn tag--lg" href="#"
-            ><i class="im im-plus"></i> Add Skill</a
+          <a
+            class="tag tag--pill tag--sub settings__btn tag--lg"
+            href="{% url 'add-skill' %}"
+            ><i class="fa-solid fa-plus"></i>&nbsp; Add Skill</a
           >
         </div>
 
@@ -73,10 +75,14 @@
               <p>{{skill.description}}</p>
             </td>
             <td class="settings__tableActions">
-              <a class="tag tag--pill tag--main settings__btn" href="#"
+              <a
+                class="tag tag--pill tag--main settings__btn"
+                href="{% url 'update-skill' skill.id %}"
                 ><i class="fa-regular fa-pen-to-square"></i>&nbsp;Edit</a
               >
-              <a class="tag tag--pill tag--main settings__btn" href="#"
+              <a
+                class="tag tag--pill tag--main settings__btn"
+                href="{% url 'delete-skill' skill.id %}"
                 ><i class="fa-regular fa-trash-can"></i>&nbsp;Delete</a
               >
             </td>

@@ -1,19 +1,25 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+<!-- prettier-ignore -->
+{% block content %}
+
 <main class="formPage my-xl">
   <div class="content-box">
     <div class="formWrapper">
+      <a class="backButton" href="{% url 'account' %}">
+        <!-- <i class="im im-angle-left"></i> -->
+        <i class="fa-solid fa-angle-left"></i>
+      </a>
+      <br />
+
       <form class="form" method="post">
         {% csrf_token %}
         <!-- Input:Text -->
+        {% for field in form %}
         <div class="form__field">
-          <p>
-            Are you sure you want to Delete
-            <span style="color: red">{{object}}</span> Project ?
-          </p>
+          <label for="formInput#text">{{field.label}} </label>
+          {{field}}
         </div>
-        <a href="{% url 'account' %}" class="btn btn--sub btn--lg my-md"
-          >Go Back</a
-        >
+        {% endfor %}
         <input
           class="btn btn--sub btn--lg my-md"
           type="submit"
@@ -23,4 +29,5 @@
     </div>
   </div>
 </main>
+
 {% endblock %}

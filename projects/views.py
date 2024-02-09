@@ -3,16 +3,35 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Project
 from .forms import ProjectForm
+from .utils import searchProjects
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 # Create your views here.
 def projects(request):
-    projects = Project.objects.all()
-    context = {"projects":projects}
+
+    projects, search_query = searchProjects(request)
+
+    page = request.GET.get('page')
+    results = 3
+    paginator = Paginator(projects,results)
+
+    try:
+        projects = paginator.page(page)
+    except PageNotAnInteger:
+        page = 1
+        projects = paginator.page(page)
+    except EmptyPage:
+        page = paginator.num_pages
+        projects = paginator.page(page)
+
+    context = {"projects":projects, "search_query":search_query, "paginator":paginator}
     return render(request, "projects/projects.html", context=context)
+
 
 def project(request, pk):
     projectObj = Project.objects.get(id=pk)
     return render(request, "projects/single-project.html", {'project':projectObj})
+
 
 @login_required(login_url="login")
 def createProject(request):
@@ -54,7 +73,8 @@ def deleteProject(request, pk):
 
     if request.method == 'POST':
         project.delete()
-        return redirect('projects')
+        return redirect('account')
 
     context = {'object':project}
     return render(request, 'projects/delete_template.html', context)
+
