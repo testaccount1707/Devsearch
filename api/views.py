@@ -31,3 +31,17 @@ def getProject(request,pk):
     projects = Project.objects.get(id=pk)
     serializer = ProjectSerializer(projects, many=False)
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def projectVote(request,pk):
+    project = Project.objects.get(id=pk)
+    user = request.user.profile
+    data = request.data
+
+    print('DATA', data)
+
+    serializer = ProjectSerializer(project, many=False)
+
+    return Response(serializer.data)
